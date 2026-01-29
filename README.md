@@ -2,6 +2,8 @@
 
 A visual BPMN (Business Process Model and Notation) diagram editor built with React, TypeScript, and [bpmn-js](https://github.com/bpmn-io/bpmn-js).
 
+![BPMN Editor screenshot showing a cash collection workflow](screenshot.png)
+
 ## Features
 
 - Create, edit, and delete BPMN diagrams
