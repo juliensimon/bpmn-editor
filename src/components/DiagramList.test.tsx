@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DiagramList } from './DiagramList';
 import * as storage from '../services/diagramStorage';
+import { EXAMPLE_WORKFLOWS } from '../constants/exampleWorkflows';
 
 vi.mock('../services/diagramStorage', async (importOriginal) => {
   const actual = await importOriginal<typeof storage>();
@@ -17,6 +18,7 @@ describe('DiagramList', () => {
     refreshKey: 0,
     onSelect: vi.fn(),
     onDelete: vi.fn(),
+    onLoadExample: vi.fn(),
   };
 
   beforeEach(() => {
@@ -202,5 +204,36 @@ describe('DiagramList', () => {
     render(<DiagramList {...defaultProps} currentId="nonexistent" />);
     const items = document.querySelectorAll('.diagram-list-item.active');
     expect(items).toHaveLength(0);
+  });
+
+  it('renders all example workflows', () => {
+    render(<DiagramList {...defaultProps} />);
+    for (const ex of EXAMPLE_WORKFLOWS) {
+      expect(screen.getByText(ex.name)).toBeInTheDocument();
+    }
+  });
+
+  it('calls onLoadExample with correct name and xml when an example is clicked', async () => {
+    const onLoadExample = vi.fn();
+    render(<DiagramList {...defaultProps} onLoadExample={onLoadExample} />);
+    await userEvent.click(screen.getByText(EXAMPLE_WORKFLOWS[0].name));
+    expect(onLoadExample).toHaveBeenCalledWith(
+      EXAMPLE_WORKFLOWS[0].name,
+      EXAMPLE_WORKFLOWS[0].xml,
+    );
+  });
+
+  it('collapses examples section when header is clicked', async () => {
+    render(<DiagramList {...defaultProps} />);
+    expect(screen.getByText(EXAMPLE_WORKFLOWS[0].name)).toBeInTheDocument();
+    await userEvent.click(screen.getByText('Examples'));
+    expect(screen.queryByText(EXAMPLE_WORKFLOWS[0].name)).not.toBeInTheDocument();
+  });
+
+  it('shows example descriptions as tooltips', () => {
+    render(<DiagramList {...defaultProps} />);
+    for (const ex of EXAMPLE_WORKFLOWS) {
+      expect(screen.getByTitle(ex.description)).toBeInTheDocument();
+    }
   });
 });

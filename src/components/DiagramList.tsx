@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { listDiagrams, type SavedDiagram } from '../services/diagramStorage';
+import { EXAMPLE_WORKFLOWS } from '../constants/exampleWorkflows';
 import './DiagramList.css';
 
 interface DiagramListProps {
@@ -7,10 +8,12 @@ interface DiagramListProps {
   refreshKey: number;
   onSelect: (id: string) => void;
   onDelete: (id: string) => void;
+  onLoadExample?: (name: string, xml: string) => void;
 }
 
-export function DiagramList({ currentId, refreshKey, onSelect, onDelete }: DiagramListProps) {
+export function DiagramList({ currentId, refreshKey, onSelect, onDelete, onLoadExample }: DiagramListProps) {
   const [diagrams, setDiagrams] = useState<SavedDiagram[]>([]);
+  const [examplesOpen, setExamplesOpen] = useState(true);
 
   useEffect(() => {
     setDiagrams(listDiagrams());
@@ -42,6 +45,29 @@ export function DiagramList({ currentId, refreshKey, onSelect, onDelete }: Diagr
             </button>
           </div>
         ))}
+      </div>
+      <div className="diagram-list-examples">
+        <button
+          className="diagram-list-examples-header"
+          onClick={() => setExamplesOpen((o) => !o)}
+        >
+          <span className={`diagram-list-examples-arrow ${examplesOpen ? 'open' : ''}`}>▶</span>
+          Examples
+        </button>
+        {examplesOpen && (
+          <div className="diagram-list-examples-items">
+            {EXAMPLE_WORKFLOWS.map((ex) => (
+              <button
+                key={ex.name}
+                className="diagram-list-example-item"
+                onClick={() => onLoadExample?.(ex.name, ex.xml)}
+                title={ex.description}
+              >
+                {ex.name}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

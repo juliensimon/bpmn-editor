@@ -73,6 +73,22 @@ export default function App() {
     setRefreshKey((k) => k + 1);
   }, []);
 
+  const handleLoadExample = useCallback((name: string, exampleXml: string) => {
+    const id = crypto.randomUUID();
+    const now = new Date().toISOString();
+    saveDiagram({
+      id,
+      name,
+      xml: exampleXml,
+      createdAt: now,
+      updatedAt: now,
+    });
+    setCurrentDiagramId(id);
+    setCurrentId(id);
+    setXml(exampleXml);
+    setRefreshKey((k) => k + 1);
+  }, []);
+
   const handleDiagramChanged = useCallback(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
@@ -123,6 +139,7 @@ export default function App() {
           refreshKey={refreshKey}
           onSelect={handleSelect}
           onDelete={handleDelete}
+          onLoadExample={handleLoadExample}
         />
         {currentId && xml ? (
           <BpmnEditor

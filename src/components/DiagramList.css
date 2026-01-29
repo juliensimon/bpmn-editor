@@ -79,3 +79,62 @@
 .diagram-list-item-delete:hover {
   color: var(--danger-color);
 }
+
+.diagram-list-examples {
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.diagram-list-examples-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.diagram-list-examples-header:hover {
+  background: var(--bg-hover);
+}
+
+.diagram-list-examples-arrow {
+  font-size: 10px;
+  transition: transform 0.15s;
+  display: inline-block;
+}
+
+.diagram-list-examples-arrow.open {
+  transform: rotate(90deg);
+}
+
+.diagram-list-examples-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.diagram-list-example-item {
+  display: block;
+  width: 100%;
+  padding: 8px 16px 8px 28px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 13px;
+  color: var(--text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.diagram-list-example-item:hover {
+  background: var(--bg-hover);
+}
