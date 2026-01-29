@@ -1,0 +1,20 @@
+.bpmn-editor {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.bpmn-canvas {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.bpmn-properties-panel {
+  width: 320px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  border-left: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+}
